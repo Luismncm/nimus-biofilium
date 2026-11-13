@@ -78,7 +78,8 @@
     let front = 0;
     let token = 0;
 
-    const paintThumbs = (c, s) => thumbs.forEach((t) => { t.src = src(c, s, t.dataset.v); });
+    const thumbSrc = (c, s, v) => `assets/thumbs/${s}/${folder[c]}/${v}.webp`;
+    const paintThumbs = (c, s) => thumbs.forEach((t) => { t.src = thumbSrc(c, s, t.dataset.v); });
 
     const update = () => {
       const { c, s, v } = state();
@@ -86,7 +87,7 @@
       viewsSet.dataset.color = c;
       label.textContent = `Ø${s} × 60 mm · ${names[c]}`;
       viewLabel.textContent = views[v];
-      if (form.dataset.state !== 'busy') btnLabel.textContent = `Reservar ${names[c]} · Ø${s}`;
+      if (form.dataset.state !== 'busy') btnLabel.textContent = `Avísame · ${names[c]} Ø${s}`;
       paintThumbs(c, s);
 
       const next = imgs[1 - front];
@@ -109,12 +110,25 @@
     form.addEventListener('change', (e) => { if (e.target.name === 'habitat' || e.target.name === 'size') update(); });
     viewsSet.addEventListener('change', update);
 
+    /* Precarga por tramos: al cargar, solo las cuatro vistas de la combinación inicial.
+       El resto llega al primer cambio del configurador, para no gastar ~1 MB que nadie pidió. */
+    let preloadedAll = false;
+    const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 600));
+    const preload = (list) => idle(() => list.forEach((u) => { const i = new Image(); i.src = u; }));
+    const preloadAll = () => {
+      if (preloadedAll) return;
+      preloadedAll = true;
+      const all = [];
+      ['carbon', 'marfil'].forEach((c) => ['180', '130'].forEach((s) =>
+        Object.keys(views).forEach((v) => all.push(src(c, s, v)))));
+      preload(all);
+    };
+    form.addEventListener('change', preloadAll, { once: true });
+    viewsSet.addEventListener('change', preloadAll, { once: true });
+
     window.addEventListener('load', () => {
-      const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 600));
-      idle(() => {
-        ['carbon', 'marfil'].forEach((c) => ['180', '130'].forEach((s) =>
-          Object.keys(views).forEach((v) => { const i = new Image(); i.src = src(c, s, v); })));
-      });
+      const { c, s } = state();
+      preload(Object.keys(views).map((v) => src(c, s, v)));
     });
   }
 
@@ -147,6 +161,8 @@
     const btnLabel = $('.btn__label', btn);
     const ok = $('#waitlist-ok');
     const okDetail = $('#ok-detail');
+    const okMail = $('#ok-mail');
+    const okEdit = $('#ok-edit');
     const isEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
     const setErr = (input, el, msg) => {
       el.textContent = msg;
@@ -157,12 +173,26 @@
       form.dataset.state = busy ? 'busy' : 'idle';
       btn.disabled = busy;
       btn.dataset.state = busy ? 'busy' : 'idle';
-      btnLabel.textContent = busy ? 'Guardando…' : `Reservar ${names[c]} · Ø${s}`;
+      btnLabel.textContent = busy ? 'Guardando…' : `Avísame · ${names[c]} Ø${s}`;
       if (busy) btn.setAttribute('aria-busy', 'true'); else btn.removeAttribute('aria-busy');
     };
 
     email.addEventListener('input', () => { if (email.getAttribute('aria-invalid') && isEmail(email.value.trim())) setErr(email, emailErr, ''); });
     consent.addEventListener('change', () => { if (consent.checked) setErr(consent, consentErr, ''); });
+
+    /* Salida de la confirmación: devuelve el formulario con los datos puestos,
+       para corregir una errata del correo o cambiar de color sin recargar. */
+    if (okEdit) {
+      okEdit.addEventListener('click', () => {
+        ok.hidden = true;
+        form.hidden = false;
+        form.classList.remove('is-leaving');
+        $$('[data-reveal]', ok).forEach((el) => el.classList.remove('in'));
+        setBusy(false);
+        email.focus();
+        email.select();
+      });
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -187,7 +217,8 @@
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data),
         });
         if (!res.ok) throw new Error(String(res.status));
-        okDetail.textContent = `Guardamos tu elección: HÁBITAT ${names[c]}, Ø${s} mm. Te escribiremos antes que a nadie cuando abra la preventa.`;
+        okDetail.textContent = `Anotamos tu elección: HÁBITAT ${names[c]}, Ø${s} mm. Te escribiremos antes que a nadie cuando abra la preventa.`;
+        if (okMail) okMail.textContent = data.email;
         // Salida corta del formulario (150ms) y entrada escalonada de la confirmación
         form.classList.add('is-leaving');
         setTimeout(() => {

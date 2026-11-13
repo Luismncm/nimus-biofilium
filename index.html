@@ -48,7 +48,7 @@
           <li><a href="#colaboracion">Colaboración</a></li>
         </ul>
       </nav>
-      <a class="btn btn--sm" href="#preventa"><span class="live" aria-hidden="true"></span>Reservar</a>
+      <a class="btn btn--sm" href="#preventa"><span class="live" aria-hidden="true"></span>Unirme</a>
     </div>
   </header>
 
@@ -64,10 +64,10 @@
           </div>
           <h1 class="display" id="hero-title" data-reveal style="--i:1">HÁBITAT</h1>
           <p class="hero__tag" data-reveal style="--i:2">Una estructura para dos hábitats</p>
-          <p class="hero__lead" data-reveal style="--i:3">Una pieza que se cuelga en el muro, sostiene tu planta y la deja crecer libremente. Viene en dos colores, Carbón y Marfil, y en dos tamaños: 13 y 18 cm de diámetro.</p>
+          <p class="hero__lead" data-reveal style="--i:3">Una pieza que se cuelga en el muro, sostiene tu planta y la deja crecer libremente. Viene en dos colores, Carbón y Marfil, y en dos tamaños: Ø130 y Ø180 mm, es decir 13 y 18 cm de diámetro.</p>
           <div class="actions" data-reveal style="--i:4">
             <a class="btn btn--cta" href="#preventa">
-              <span class="btn__label">Reservar mi pieza</span>
+              <span class="btn__label">Entrar a la lista</span>
               <span class="btn__chip" aria-hidden="true"><span class="arrows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
             </a>
             <a class="btn btn--line" href="#concepto">Ver la colección</a>
@@ -180,7 +180,7 @@
       <div class="wrap">
         <div class="obj-head">
           <h2 class="h2" id="objeto-title" data-reveal>Una pieza que acompaña cualquier hábitat</h2>
-          <p class="body" data-reveal style="--i:1">Pieza circular de muro con trama orgánica abierta: el tallo sale por la abertura en C y la planta decide hacia dónde crecer. Elige color y tamaño para apartar la tuya.</p>
+          <p class="body" data-reveal style="--i:1">Pieza circular de muro con trama orgánica abierta: el tallo sale por la abertura en C y la planta decide hacia dónde crecer. Elige color y tamaño para que te avisemos de ese.</p>
         </div>
 
         <div class="obj">
@@ -230,8 +230,8 @@
             <div class="reserve" id="preventa" data-reveal style="--i:2">
               <form class="form" id="waitlist" novalidate aria-labelledby="reserve-title">
                 <div class="reserve__head">
-                  <h3 class="h3" id="reserve-title">Reserva tu pieza</h3>
-                  <p class="badge"><span class="live" aria-hidden="true"></span>Lista abierta · sin pago</p>
+                  <h3 class="h3" id="reserve-title">Entra a la lista</h3>
+                  <p class="badge"><span class="live" aria-hidden="true"></span>Sin pago · sin compromiso</p>
                 </div>
 
                 <fieldset class="pick">
@@ -268,18 +268,18 @@
 
                 <label class="check" for="f-consent">
                   <input type="checkbox" id="f-consent" name="consent" required aria-describedby="f-consent-err">
-                  <span>Acepto recibir correos de Nimus y Biofilium sobre HÁBITAT. Me puedo dar de baja cuando quiera.</span>
+                  <span>Acepto recibir correos de Nimus y Biofilium sobre HÁBITAT y he leído el <a href="/privacidad">aviso de privacidad</a>. Me puedo dar de baja cuando quiera.</span>
                 </label>
                 <p class="field__err" id="f-consent-err"></p>
 
                 <button class="btn btn--cta btn--block" type="submit" id="f-submit" data-state="idle">
-                  <span class="btn__label">Reservar Carbón · Ø180</span>
+                  <span class="btn__label">Avísame · Carbón Ø180</span>
                   <span class="btn__chip" aria-hidden="true">
                     <span class="chip-icon chip-icon--idle"><span class="arrows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
                     <span class="chip-icon chip-icon--busy"><span class="spinner"></span></span>
                   </span>
                 </button>
-                <p class="reserve__fine">No pagas nada ahora y te avisamos antes que a nadie cuando abra la preventa.</p>
+                <p class="reserve__fine">No apartamos unidades todavía: esto es una lista de aviso. Te escribimos antes que a nadie cuando abra la preventa.</p>
                 <p class="form__status" id="f-status" role="alert"></p>
               </form>
 
@@ -287,6 +287,11 @@
                 <span class="success__icon" aria-hidden="true" data-reveal style="--i:0"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
                 <p class="h3" data-reveal style="--i:1">Estás en la lista.</p>
                 <p class="body" data-reveal style="--i:2" id="ok-detail">Te escribiremos antes que a nadie cuando abra la preventa.</p>
+                <p class="success__mail" data-reveal style="--i:3">Te escribiremos a <strong id="ok-mail"></strong></p>
+                <div class="success__out" data-reveal style="--i:4">
+                  <button class="btn btn--line" type="button" id="ok-edit">Cambiar mi elección</button>
+                  <a class="btn btn--line" href="#archivo">Ver el archivo</a>
+                </div>
               </div>
             </div>
           </div>
@@ -345,7 +350,7 @@
     </section>
 
     <!-- ARCHIVO -->
-    <section class="section section--tight on-dark" aria-labelledby="archivo-title">
+    <section class="section section--tight on-dark" id="archivo" aria-labelledby="archivo-title">
       <div class="wrap strip__bar">
         <div class="strip__title">
           <h2 class="h2" id="archivo-title" data-reveal>Archivo HAB 001</h2>
@@ -385,7 +390,7 @@
       <p class="footer__quote" data-reveal>Una colección sobre aquello que nos contiene, nos protege y nos permite pertenecer</p>
       <div class="actions footer__cta" data-reveal style="--i:1">
         <a class="btn btn--cta" href="#preventa">
-          <span class="btn__label">Reservar mi pieza</span>
+          <span class="btn__label">Entrar a la lista</span>
           <span class="btn__chip" aria-hidden="true"><span class="arrows"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></span>
         </a>
       </div>
@@ -395,7 +400,7 @@
           <span class="x" aria-hidden="true">×</span>
           <span class="logo-bio" aria-hidden="true"></span>
         </div>
-        <p class="footer__fine">© 2026 Nimus × Biofilium. Las imágenes de micro y macro son recreaciones digitales con fines editoriales.</p>
+        <p class="footer__fine">© 2026 Nimus × Biofilium · <a href="/privacidad">Aviso de privacidad</a><br>Las imágenes de micro y macro son recreaciones digitales con fines editoriales.</p>
       </div>
     </div>
   </footer>
